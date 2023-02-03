@@ -8,7 +8,7 @@ import pygame
 # ******************** classes *******************************************************
 
 class Rotation:
-    def __init__(self, angle=pygame.Vector3(0, 1, 0), axis="Y"):
+    def __init__(self, angle=0, axis=pygame.Vector3(0, 1, 0)):
         self.angle = angle
         self.axis = axis
 
@@ -105,11 +105,10 @@ def rotate(matrix, angle, axis, local=True):
 
 
 def rotate_around_axis(matrix, angle, axis, local=True):
-    rot = rotate_around_axis_mat(angle, axis)
     if local:
-        return matrix @ rot
+        return matrix @ rotate_around_axis_mat(angle, axis)
     else:
-        return rot @ matrix
+        return rotate_around_axis_mat(angle, axis) @ matrix
 
 
 def scale(matrix, x, y, z):

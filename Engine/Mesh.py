@@ -24,9 +24,10 @@ class Mesh:
         self.vbo = []
         self.load_obj_file()
         self.translation = identity_mat()
-        self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
         self.translation = rotate_around_axis(self.translation, init_rotation.angle, init_rotation.axis)
+        self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
         self.translation = scale(self.translation, init_scale.x, init_scale.y, init_scale.z)
+        self.model_mat_uniform_location = glGetUniformLocation(self.rendering_program, "model_mat")
 
     def create_vbo(self, graphics_data, layout_location, data_type):
         data = np.array(graphics_data, np.float32)
@@ -43,8 +44,9 @@ class Mesh:
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         glBindVertexArray(0)
 
-    def create_uniform(self, data, data_type):
-        pass
+    def load_uniform(self, data, data_type, uniform_location):
+        if data_type == "mat4":
+            glUniformMatrix4fv(uniform_location, 1, GL_TRUE, data)
 
     def load_obj_file(self):
         with open(self.file_name) as fp:
@@ -73,7 +75,8 @@ class Mesh:
                 line = fp.readline()
 
     def draw(self):
-        glBindVertexArray(self.vao)
         glUseProgram(self.rendering_program)
+        self.load_uniform(self.translation, "mat4", self.model_mat_uniform_location)
+        glBindVertexArray(self.vao)
         glDrawArrays(self.draw_type, 0, len(self.vertices))
         glBindVertexArray(0)

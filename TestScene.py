@@ -6,17 +6,16 @@ from OpenGL.GLU import *
 from Engine.Scene import *
 from Engine.Mesh import *
 from Engine.RenderingProgram import *
+from Engine.Transformations import *
 
 
 vertex_shader_source = r'''
 #version 330 core
 layout(location=0) in vec3 pos;
 uniform mat4 model_mat;
-uniform mat4 view_mat;
-uniform mat4 projection_mat;
 void main()
 {
-    gl_Position = projection_mat * inverse(view_mat) * model_mat * vec4(pos, 1.0);
+    gl_Position = model_mat * vec4(pos, 1.0);
 }
 '''
 
@@ -39,7 +38,12 @@ class TestScene(Scene):
     def init(self):
         glClearColor(0.2, 0.2, 0.21, 1.0)
 
-        self.cube = Mesh(self.rendering_program.rendering_program)
+        self.cube = Mesh(self.rendering_program.rendering_program,
+                         draw_type=GL_LINE_LOOP,
+                         file_name="PrimitiveMeshes/cube.obj",
+                         init_location=pygame.Vector3(0, 0, -5),
+                         init_rotation=Rotation(),
+                         init_scale=pygame.Vector3(1, 1, 1))
         self.cube.create_vbo(self.cube.vertices, 0, "vec3")
 
     def update(self):
