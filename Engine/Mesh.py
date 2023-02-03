@@ -4,6 +4,7 @@ import pygame
 from OpenGL.GL import *
 
 from Engine.Transformations import *
+from Engine.Utils import *
 
 
 class Mesh:
@@ -23,6 +24,7 @@ class Mesh:
         self.vao = glGenVertexArrays(1)
         self.vbo = []
         self.load_obj_file()
+        self.vertices = format_vertices(self.vertices, self.vertex_indices)
         self.translation = identity_mat()
         self.translation = rotate_around_axis(self.translation, init_rotation.angle, init_rotation.axis)
         self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
@@ -56,7 +58,7 @@ class Mesh:
                     vx, vy, vz, = [float(value) for value in line[2:].split()]
                     self.vertices.append((vx, vy, vz))
                 if line[:3] == "vn ":
-                    nx, ny, nz = [float(value) for value in line[2:].split()]
+                    nx, ny, nz = [float(value) for value in line[3:].split()]
                     self.normals.append((nx, ny, nz))
                 if line[:3] == "vt ":
                     u, v = [float(value) for value in line[3:].split()]

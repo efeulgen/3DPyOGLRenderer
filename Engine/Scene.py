@@ -28,11 +28,23 @@ class Scene:
 
     def main_loop(self):
         self.init()
+        pygame.event.set_grab(True)
+        pygame.mouse.set_visible(False)
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        running = False
+                    if event.key == K_SPACE:
+                        if pygame.event.get_grab():
+                            pygame.event.set_grab(False)
+                            pygame.mouse.set_visible(True)
+                        else:
+                            pygame.event.set_grab(True)
+                            pygame.mouse.set_visible(False)
             # *****************************************************************************************************************************
             # *****************************************************************************************************************************
             self.update()

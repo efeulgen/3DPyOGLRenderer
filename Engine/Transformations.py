@@ -82,6 +82,18 @@ def uniform_scale_mat(s):
                      [0, 0, 0, 1]], np.float32)
 
 
+def perspective_mat(angle_of_view, aspect_ratio, near_plane, far_plane):
+    a = radians(angle_of_view)
+    d = 1.0 / tan(a/2)
+    r = aspect_ratio
+    b = (far_plane + near_plane) / (near_plane - far_plane)
+    c = far_plane * near_plane / (near_plane - far_plane)
+    return np.array([[d/r, 0, 0, 0],
+                    [0, d, 0, 0],
+                    [0, 0, b, c],
+                    [0, 0, -1, 0]], np.float32)
+
+
 # ************************************************************************************
 # ******************** transformation methods ****************************************
 
