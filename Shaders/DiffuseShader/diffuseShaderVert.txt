@@ -1,0 +1,20 @@
+#version 330 core
+layout(location=0) in vec3 vertex_position;
+layout(location=1) in vec3 vertex_normal;
+layout(location=2) in vec2 vertex_uv;
+layout(location=3) in vec3 vertex_color;
+uniform mat4 model_mat;
+uniform mat4 view_mat;
+uniform mat4 projection_mat;
+out vec3 view_pos;
+out vec3 fragPos;
+out vec3 normal;
+out vec3 color;
+void main()
+{
+    gl_Position = projection_mat * inverse(view_mat) * model_mat * vec4(vertex_position, 1.0);
+    view_pos = vec3(view_mat * vec4(0, 0, 0, 1));
+    fragPos = vec3(model_mat * vec4(vertex_position, 1.0));
+    normal = mat3(transpose(inverse(model_mat))) * vertex_normal;
+    color = vertex_color;
+}

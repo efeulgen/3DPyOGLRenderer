@@ -3,6 +3,8 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 
+from Engine.InputManager import *
+
 
 class Scene:
     def __init__(self, screen_pos_x=100, screen_pos_y=100, screen_width=1280, screen_height=720):
@@ -19,6 +21,11 @@ class Scene:
         pygame.display.set_caption("PyOpenGL 3D Renderer")
         self.clock = pygame.time.Clock()
         glEnable(GL_DEPTH_TEST)
+
+        self.rendering_programs = []
+        self.mesh_list = []
+        self.camera = None
+        self.input_manager = InputManager(self.mesh_list, self.rendering_programs)
 
     def init(self):
         pass
@@ -38,6 +45,8 @@ class Scene:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
+                    if event.key == K_TAB:
+                        self.input_manager.get_user_input()
                     if event.key == K_SPACE:
                         if pygame.event.get_grab():
                             pygame.event.set_grab(False)

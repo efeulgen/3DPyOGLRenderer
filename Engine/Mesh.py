@@ -1,5 +1,6 @@
 
-import numpy as np
+import random
+
 import pygame
 from OpenGL.GL import *
 
@@ -8,13 +9,17 @@ from Engine.Utils import *
 
 
 class Mesh:
-    def __init__(self, rendering_program, draw_type=GL_TRIANGLES, file_name="PrimitiveMeshes/cube.obj",
+    def __init__(self, rendering_program,
+                 draw_type=GL_TRIANGLES,
+                 file_name="PrimitiveMeshes/cube.obj",
+                 vertex_color=pygame.Vector3(1, 1, 1),
                  init_location=pygame.Vector3(0, 0, 0),
                  init_rotation=Rotation(),
                  init_scale=pygame.Vector3(1, 1, 1)):
         self.rendering_program = rendering_program
         self.draw_type = draw_type
         self.file_name = file_name
+        self.vertex_color = vertex_color
         self.vertices = []
         self.vertex_indices = []
         self.normals = []
@@ -23,8 +28,11 @@ class Mesh:
         self.uv_indices = []
         self.vao = glGenVertexArrays(1)
         self.vbo = []
-        self.load_obj_file()
-        self.vertices = format_vertices(self.vertices, self.vertex_indices)
+        self.load_obj_file()  # optional
+        self.vertex_colors = []
+        for i in range(len(self.vertices)):
+            self.vertex_colors.append(self.vertex_color)
+        self.create_vbo(self.vertex_colors, 3, "vec3")
         self.translation = identity_mat()
         self.translation = rotate_around_axis(self.translation, init_rotation.angle, init_rotation.axis)
         self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
@@ -75,6 +83,12 @@ class Mesh:
                     self.normal_indices.append([int(value) for value in t2.split("/")][2] - 1)
                     self.normal_indices.append([int(value) for value in t3.split("/")][2] - 1)
                 line = fp.readline()
+        self.vertices = format_vertices(self.vertices, self.vertex_indices)
+        self.normals = format_vertices(self.normals, self.normal_indices)
+        self.uvs = format_vertices(self.uvs, self.uv_indices)
+        self.create_vbo(self.vertices, 0, "vec3")
+        self.create_vbo(self.normals, 1, "vec3")
+        self.create_vbo(self.uvs, 2, "vec2")
 
     def draw(self):
         glUseProgram(self.rendering_program)
@@ -82,3 +96,9 @@ class Mesh:
         glBindVertexArray(self.vao)
         glDrawArrays(self.draw_type, 0, len(self.vertices))
         glBindVertexArray(0)
+
+    def random_color(self):
+        self.vertex_colors.clear()
+        for i in range(len(self.vertices)):
+            self.vertex_colors.append(pygame.Vector3(random.random(), random.random(), random.random()))
+        self.create_vbo(self.vertex_colors, 3, "vec3")

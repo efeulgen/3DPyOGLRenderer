@@ -45,7 +45,7 @@ def rotate_y_mat(angle):
     s = sin(radians(angle))
     return np.array([[c, 0, s, 0],
                      [0, 1, 0, 0],
-                     [s, 0, c, 0],
+                     [-s, 0, c, 0],
                      [0, 0, 0, 1]], np.float32)
 
 
