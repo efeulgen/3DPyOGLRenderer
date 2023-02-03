@@ -1,10 +1,16 @@
 
 import numpy as np
+import pygame
 from OpenGL.GL import *
+
+from Engine.Transformations import *
 
 
 class Mesh:
-    def __init__(self, rendering_program, draw_type=GL_TRIANGLES, file_name="PrimitiveMeshes/cube.obj"):
+    def __init__(self, rendering_program, draw_type=GL_TRIANGLES, file_name="PrimitiveMeshes/cube.obj",
+                 init_location=pygame.Vector3(0, 0, 0),
+                 init_rotation=Rotation(),
+                 init_scale=pygame.Vector3(1, 1, 1)):
         self.rendering_program = rendering_program
         self.draw_type = draw_type
         self.file_name = file_name
@@ -17,6 +23,10 @@ class Mesh:
         self.vao = glGenVertexArrays(1)
         self.vbo = []
         self.load_obj_file()
+        self.translation = identity_mat()
+        self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
+        self.translation = rotate_around_axis(self.translation, init_rotation.angle, init_rotation.axis)
+        self.translation = scale(self.translation, init_scale.x, init_scale.y, init_scale.z)
 
     def create_vbo(self, graphics_data, layout_location, data_type):
         data = np.array(graphics_data, np.float32)
@@ -30,8 +40,11 @@ class Mesh:
         elif data_type == "vec2":
             glVertexAttribPointer(layout_location, 2, GL_FLOAT, False, 0, None)
         glEnableVertexAttribArray(layout_location)
-        glBindBuffer(0)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
         glBindVertexArray(0)
+
+    def create_uniform(self, data, data_type):
+        pass
 
     def load_obj_file(self):
         with open(self.file_name) as fp:
@@ -63,3 +76,4 @@ class Mesh:
         glBindVertexArray(self.vao)
         glUseProgram(self.rendering_program)
         glDrawArrays(self.draw_type, 0, len(self.vertices))
+        glBindVertexArray(0)
