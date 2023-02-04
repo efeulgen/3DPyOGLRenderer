@@ -38,6 +38,8 @@ class Mesh:
         self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
         self.translation = scale(self.translation, init_scale.x, init_scale.y, init_scale.z)
         self.model_mat_uniform_location = glGetUniformLocation(self.rendering_program, "model_mat")
+        self.mesh_name = ''
+        self.is_selected_object = True
 
     def create_vbo(self, graphics_data, layout_location, data_type):
         data = np.array(graphics_data, np.float32)
@@ -89,6 +91,15 @@ class Mesh:
         self.create_vbo(self.vertices, 0, "vec3")
         self.create_vbo(self.normals, 1, "vec3")
         self.create_vbo(self.uvs, 2, "vec2")
+
+    def translate_mesh(self, x, y, z):
+        self.translation = translate(self.translation, x, y, z)
+
+    def rotate_mesh(self, angle, axis):
+        self.translation = rotate_around_axis(self.translation, angle, axis)
+
+    def uniform_scale_mesh(self, s):
+        self.translation = uniform_scale(self.translation, s)
 
     def draw(self):
         glUseProgram(self.rendering_program)

@@ -14,6 +14,8 @@ class Camera:
         self.mouse_sensitivity_y = 0.1
         self.key_sensitivity = 0.05
         self.view_mat = identity_mat()
+        self.view_mat = translate(self.view_mat, 2, 0, 2)
+        self.view_mat = rotate_around_axis(self.view_mat, 45, pygame.Vector3(0, 1, 0))
         self.projection_mat = perspective_mat(60, self.screen_width/self.screen_height, 0.01, 10000.0)
         self.rendering_programs = rendering_programs
         self.projection_mat_uniform_locations = []

@@ -4,6 +4,8 @@ from pygame.locals import *
 from OpenGL.GL import *
 
 from Engine.InputManager import *
+from Engine.Axes import *
+from Engine.RenderingProgram import *
 
 
 class Scene:
@@ -22,10 +24,12 @@ class Scene:
         self.clock = pygame.time.Clock()
         glEnable(GL_DEPTH_TEST)
 
-        self.rendering_programs = []
+        self.rendering_programs = [RenderingProgram("Engine/Shaders/AxesShader/axesShaderVert.txt",
+                                                    "Engine/Shaders/AxesShader/axesShaderFrag.txt")]
         self.mesh_list = []
         self.camera = None
         self.input_manager = InputManager(self.mesh_list, self.rendering_programs)
+        self.axes = Axes(self.rendering_programs[0].rendering_program)
 
     def init(self):
         pass
@@ -62,6 +66,7 @@ class Scene:
             # *****************************************************************************************************************************
             # *****************************************************************************************************************************
             self.update()
+            self.axes.draw()
             pygame.display.flip()
             self.clock.tick(60)
         pygame.quit()

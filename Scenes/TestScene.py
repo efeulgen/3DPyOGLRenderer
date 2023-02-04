@@ -14,8 +14,9 @@ class TestScene(Scene):
         self.rendering_programs.append(RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
                                                         "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt"))
         self.camera = Camera(1280, 720, self.rendering_programs)
-        # dog = Mesh(self.rendering_programs[0].rendering_program, file_name="Engine/TestMeshes/Dog.obj")
-        # dog.random_color()
+        dog = Mesh(self.rendering_programs[1].rendering_program, file_name="Engine/TestMeshes/Dog.obj")
+        dog.random_color()
+        # self.mesh_list.append(dog)
 
     def update(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
