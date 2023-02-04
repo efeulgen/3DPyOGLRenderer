@@ -46,7 +46,12 @@ class Scene:
                     if event.key == K_ESCAPE:
                         running = False
                     if event.key == K_TAB:
-                        self.input_manager.get_user_input()
+                        pygame.event.set_grab(False)
+                        pygame.mouse.set_visible(True)
+                        if not pygame.event.get():
+                            self.input_manager.get_user_input()
+                            pygame.event.set_grab(True)
+                            pygame.mouse.set_visible(False)
                     if event.key == K_SPACE:
                         if pygame.event.get_grab():
                             pygame.event.set_grab(False)

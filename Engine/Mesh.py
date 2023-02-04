@@ -11,7 +11,7 @@ from Engine.Utils import *
 class Mesh:
     def __init__(self, rendering_program,
                  draw_type=GL_TRIANGLES,
-                 file_name="PrimitiveMeshes/cube.obj",
+                 file_name="Engine/PrimitiveMeshes/cube.obj",
                  vertex_color=pygame.Vector3(1, 1, 1),
                  init_location=pygame.Vector3(0, 0, 0),
                  init_rotation=Rotation(),

@@ -1,5 +1,8 @@
 
-from Engine.Mesh import *
+from Engine.PrimitiveMeshes.Cube import *
+from Engine.PrimitiveMeshes.Cylinder import *
+from Engine.PrimitiveMeshes.Sphere import *
+from Engine.PrimitiveMeshes.Torus import *
 
 
 class InputManager:
@@ -12,6 +15,15 @@ class InputManager:
     def get_user_input(self):
         self.user_input = input("Enter input: ")
         if self.user_input == 'cube':
-            self.mesh_list.append(Mesh(self.rendering_programs[0].rendering_program, file_name="PrimitiveMeshes/cube.obj"))
+            self.mesh_list.append(Cube(self.rendering_programs[0].rendering_program))
+            print("Cube created.")
+        elif self.user_input == "cylinder":
+            self.mesh_list.append(Cylinder(self.rendering_programs[0].rendering_program))
+            print("Cylinder created.")
+        elif self.user_input == "sphere":
+            self.mesh_list.append(Sphere(self.rendering_programs[0].rendering_program))
+            print("Sphere created.")
+        elif self.user_input == "torus":
+            self.mesh_list.append(Torus(self.rendering_programs[0].rendering_program))
         else:
-            print("invalid input")
+            print("Invalid input.")
