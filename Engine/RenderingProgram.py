@@ -3,7 +3,7 @@ from OpenGL.GL import *
 
 
 class RenderingProgram:
-    def __init__(self, vert_src, frag_src):
+    def __init__(self, vert_src, frag_src, does_support_light=True):
         self.vert_src = open(vert_src).read()
         self.frag_src = open(frag_src).read()
         self.rendering_program = glCreateProgram()
@@ -14,6 +14,7 @@ class RenderingProgram:
         glLinkProgram(self.rendering_program)
         self.vertex_shader = None
         self.fragment_shader = None
+        self.does_support_light = does_support_light
 
     def load_shader(self, shader_type, shader_src):
         shader = glCreateShader(shader_type)

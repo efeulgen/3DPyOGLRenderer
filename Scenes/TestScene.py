@@ -1,8 +1,10 @@
+import pygame
 
 from Engine.Scene import *
 from Engine.Mesh import *
 from Engine.RenderingProgram import *
 from Engine.Camera import *
+from Engine.Light import *
 
 
 class TestScene(Scene):
@@ -15,12 +17,20 @@ class TestScene(Scene):
                                                         "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt"))
         self.camera = Camera(1280, 720, self.rendering_programs)
         dog = Mesh(self.rendering_programs[1].rendering_program, file_name="Engine/TestMeshes/Dog.obj")
-        dog.random_color()
-        # self.mesh_list.append(dog)
+        # dog.random_color()
+        self.mesh_list.append(dog)
+        self.light_list.append(Light(self.rendering_programs, 0,
+                                     position=pygame.Vector3(5, 5, 5),
+                                     color=pygame.Vector3(1.0, 1.0, 0.8)))
+        self.light_list.append(Light(self.rendering_programs, 1,
+                                     position=pygame.Vector3(-5, 5, 5),
+                                     color=pygame.Vector3(0.8, 0.8, 1.0)))
 
     def update(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         self.camera.update()
+        for light in self.light_list:
+            light.update()
         for mesh in self.mesh_list:
             mesh.draw()
 

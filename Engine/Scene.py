@@ -25,8 +25,10 @@ class Scene:
         glEnable(GL_DEPTH_TEST)
 
         self.rendering_programs = [RenderingProgram("Engine/Shaders/AxesShader/axesShaderVert.txt",
-                                                    "Engine/Shaders/AxesShader/axesShaderFrag.txt")]
+                                                    "Engine/Shaders/AxesShader/axesShaderFrag.txt",
+                                                    does_support_light=False)]
         self.mesh_list = []
+        self.light_list = []
         self.camera = None
         self.input_manager = InputManager(self.mesh_list, self.rendering_programs)
         self.axes = Axes(self.rendering_programs[0].rendering_program)

@@ -15,9 +15,9 @@ class InputManager:
 
     def get_user_input(self):
         self.user_input = input("Enter input: ")
-        # *************************************************************************
-        # ******************** create mesh ****************************************
-        # cube ********************************************************************
+        # **********************************************************************************
+        # ******************** create mesh *************************************************
+        # cube *****************************************************************************
         if self.user_input == 'cube':
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
@@ -51,7 +51,7 @@ class InputManager:
             else:
                 self.active_object.mesh_name = f'Cylinder_{num_of_cylinder}'
             print("Cylinder created.")
-        # sphere ********************************************************************
+        # sphere **********************************************************************
         elif self.user_input == "sphere":
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
@@ -68,7 +68,7 @@ class InputManager:
             else:
                 self.active_object.mesh_name = f'Sphere_{num_of_sphere}'
             print("Sphere created.")
-        # torus ********************************************************************
+        # torus ***********************************************************************
         elif self.user_input == "torus":
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
