@@ -38,7 +38,7 @@ class Mesh:
         self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
         self.translation = scale(self.translation, init_scale.x, init_scale.y, init_scale.z)
         self.model_mat_uniform_location = glGetUniformLocation(self.rendering_program, "model_mat")
-        self.mesh_name = ''
+        self.name = ''
         self.is_selected_object = True
 
     def create_vbo(self, graphics_data, layout_location, data_type):

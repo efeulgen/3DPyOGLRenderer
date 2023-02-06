@@ -30,7 +30,7 @@ class Scene:
         self.mesh_list = []
         self.light_list = []
         self.camera = None
-        self.input_manager = InputManager(self.mesh_list, self.rendering_programs)
+        self.input_manager = InputManager(self.mesh_list, self.light_list, self.rendering_programs)
         self.axes = Axes(self.rendering_programs[0].rendering_program)
 
     def init(self):
