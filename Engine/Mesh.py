@@ -98,8 +98,14 @@ class Mesh:
     def rotate_mesh(self, angle, axis):
         self.translation = rotate_around_axis(self.translation, angle, axis)
 
+    def scale_mesh(self, sx, sy, sz):
+        self.translation = scale(self.translation, sx, sy, sz)
+
     def uniform_scale_mesh(self, s):
         self.translation = uniform_scale(self.translation, s)
+
+    def clear_transformations(self):
+        self.translation = identity_mat()
 
     def draw(self):
         glUseProgram(self.rendering_program)

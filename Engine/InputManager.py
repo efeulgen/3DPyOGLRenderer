@@ -1,3 +1,4 @@
+import pygame
 
 from Engine.PrimitiveMeshes.Cube import *
 from Engine.PrimitiveMeshes.Cylinder import *
@@ -87,11 +88,16 @@ class InputManager:
         # ****************************************************************************
         # ******************** selection *********************************************
         elif self.user_input[:6] == "select":
+            mesh_found = False
             for mesh in self.mesh_list:
                 mesh.is_selected_object = False
                 if mesh.mesh_name == self.user_input[7:]:
+                    mesh_found = True
                     mesh.is_selected_object = True
                     self.active_object = mesh
+            if not mesh_found:
+                self.active_object.is_selected_object = True
+                print("Mesh not found")
         elif self.user_input == "print name":
             print(self.active_object.mesh_name)
         # ****************************************************************************
@@ -100,8 +106,15 @@ class InputManager:
             x, y, z = [float(value) for value in self.user_input[10:].split()]
             self.active_object.translate_mesh(x, y, z)
         elif self.user_input[:6] == "rotate":
-            pass
+            angle, axis_x, axis_y, axis_z = [float(value) for value in self.user_input[7:].split()]
+            self.active_object.rotate_mesh(angle, pygame.Vector3(axis_x, axis_y, axis_z))
         elif self.user_input[:5] == "scale":
-            pass
+            sx, sy, sz = [float(value) for value in self.user_input[6:].split()]
+            self.active_object.scale_mesh(sx, sy, sz)
+        elif self.user_input == "print model matrix":
+            print(self.active_object.translation)
+        elif self.user_input == "clear model matrix":
+            self.active_object.clear_transformations()
+        # ****************************************************************************
         else:
             print("Invalid input.")
