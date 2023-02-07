@@ -95,6 +95,14 @@ class InputManager:
             new_light.name = f'Light_0{len(self.light_list) + 1}'
             self.light_list.append(new_light)
             print("Light created.")
+        elif self.user_input == "activate camera light":
+            for light in self.light_list:
+                if light.name == 'CameraLight':
+                    light.activate_cam_light()
+        elif self.user_input == "deactivate camera light":
+            for light in self.light_list:
+                if light.name == "CameraLight":
+                    light.deactivate_cam_light()
         # ****************************************************************************
         # ******************** selection *********************************************
         elif self.user_input[:6] == "select":
@@ -119,7 +127,16 @@ class InputManager:
                     self.active_object.is_selected_object = True
                     print("Mesh or light not found")
         elif self.user_input == "print name":
-            print(self.active_object.name)
+            if self.active_object is not None:
+                print(self.active_object.name)
+            else:
+                print("Active object not found")
+        elif self.user_input == "print mesh list":
+            for mesh in self.mesh_list:
+                print(mesh.name)
+        elif self.user_input == "print light list":
+            for light in self.light_list:
+                print(light.name)
         # ****************************************************************************
         # ******************** transformation ****************************************
         elif self.user_input[:9] == "translate":

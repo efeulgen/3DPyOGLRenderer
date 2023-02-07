@@ -21,6 +21,7 @@ class Scene:
         pygame.display.gl_set_attribute(pygame.GL_DEPTH_SIZE, 32)
         self.screen = pygame.display.set_mode(self.screen_size, DOUBLEBUF | OPENGL)
         pygame.display.set_caption("PyOpenGL 3D Renderer")
+        self.clear_color = pygame.Vector3(0.1, 0.1, 0.11)
         self.clock = pygame.time.Clock()
         glEnable(GL_DEPTH_TEST)
 
@@ -30,14 +31,15 @@ class Scene:
         self.mesh_list = []
         self.light_list = []
         self.camera = None
+        self.camera_light = None
         self.input_manager = InputManager(self.mesh_list, self.light_list, self.rendering_programs)
         self.axes = Axes(self.rendering_programs[0].rendering_program)
 
     def init(self):
-        pass
+        glClearColor(self.clear_color[0], self.clear_color[1], self.clear_color[2], 1.0)
 
     def update(self):
-        pass
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
     def main_loop(self):
         self.init()
