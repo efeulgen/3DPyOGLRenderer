@@ -14,13 +14,23 @@ class TestScene(Scene):
 
     def init(self):
         super().init()
-        self.rendering_programs.append(RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
-                                                        "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt"))
+        wood_mat = RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
+                                    "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt",
+                                    tex_file_name="Engine/Textures/Wood.jpg")
+        marble_mat = RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
+                                      "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt",
+                                      tex_file_name="Engine/Textures/Marble.jpg")
+        stone_mat = RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
+                                     "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt",
+                                     tex_file_name="Engine/Textures/Stone.jpg")
+        self.rendering_programs.append(wood_mat)  # 1
+        self.rendering_programs.append(marble_mat)  # 2
+        self.rendering_programs.append(stone_mat)  # 3
         self.camera = Camera(1280, 720, self.rendering_programs)
         self.camera_light = CameraLight(self.rendering_programs, self.camera)
         self.light_list.append(self.camera_light)
 
-        dog = Mesh(self.rendering_programs[1].rendering_program, file_name="Engine/TestMeshes/Dog.obj")
+        dog = Mesh(self.rendering_programs[3], file_name="Engine/TestMeshes/Dog.obj", is_turntable=False)
         self.mesh_list.append(dog)
 
     def update(self):

@@ -3,7 +3,10 @@ in vec3 view_pos;
 in vec3 fragPos;
 in vec3 normal;
 in vec3 color;
+in vec2 uv;
 out vec4 frag_color;
+
+uniform sampler2D tex;
 
 struct light{
     mat4 translation;
@@ -37,4 +40,5 @@ void main()
         // out color
         frag_color += vec4(color * (ambient + diffuse), 1.0);
     }
+    frag_color *= texture(tex, uv);
 }

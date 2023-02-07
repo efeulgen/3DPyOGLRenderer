@@ -24,7 +24,7 @@ class InputManager:
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
                     mesh.is_selected_object = False
-            self.active_object = Cube(self.rendering_programs[1].rendering_program)
+            self.active_object = Cube(self.rendering_programs[1])
             self.active_object.name = 'Cube'
             self.mesh_list.append(self.active_object)
             num_of_cube = 0
@@ -41,7 +41,7 @@ class InputManager:
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
                     mesh.is_selected_object = False
-            self.active_object = Cylinder(self.rendering_programs[1].rendering_program)
+            self.active_object = Cylinder(self.rendering_programs[1])
             self.active_object.name = 'Cylinder'
             self.mesh_list.append(self.active_object)
             num_of_cylinder = 0
@@ -58,7 +58,7 @@ class InputManager:
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
                     mesh.is_selected_object = False
-            self.active_object = Sphere(self.rendering_programs[1].rendering_program)
+            self.active_object = Sphere(self.rendering_programs[1])
             self.active_object.name = 'Sphere'
             self.mesh_list.append(self.active_object)
             num_of_sphere = 0
@@ -75,7 +75,7 @@ class InputManager:
             if len(self.mesh_list) > 0:
                 for mesh in self.mesh_list:
                     mesh.is_selected_object = False
-            self.active_object = Torus(self.rendering_programs[1].rendering_program)
+            self.active_object = Torus(self.rendering_programs[1])
             self.active_object.name = 'Torus'
             self.mesh_list.append(self.active_object)
             num_of_torus = 0
@@ -95,14 +95,6 @@ class InputManager:
             new_light.name = f'Light_0{len(self.light_list) + 1}'
             self.light_list.append(new_light)
             print("Light created.")
-        elif self.user_input == "activate camera light":
-            for light in self.light_list:
-                if light.name == 'CameraLight':
-                    light.activate_cam_light()
-        elif self.user_input == "deactivate camera light":
-            for light in self.light_list:
-                if light.name == "CameraLight":
-                    light.deactivate_cam_light()
         # ****************************************************************************
         # ******************** selection *********************************************
         elif self.user_input[:6] == "select":

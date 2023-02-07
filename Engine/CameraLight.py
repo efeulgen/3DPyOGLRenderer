@@ -14,12 +14,15 @@ class CameraLight(Light):
                          color=color)
         self.attached_camera = attached_camera
         self.name = 'CameraLight'
+        self.is_active = True
 
     def activate_cam_light(self):
         self.color = pygame.Vector3(1, 1, 1)
+        self.is_active = True
 
     def deactivate_cam_light(self):
         self.color = pygame.Vector3(0, 0, 0)
+        self.is_active = False
 
     def update(self):
         super().update()

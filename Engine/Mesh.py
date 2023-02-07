@@ -6,6 +6,7 @@ from OpenGL.GL import *
 
 from Engine.Transformations import *
 from Engine.Utils import *
+from Engine.Texture import *
 
 
 class Mesh:
@@ -15,7 +16,8 @@ class Mesh:
                  vertex_color=pygame.Vector3(1, 1, 1),
                  init_location=pygame.Vector3(0, 0, 0),
                  init_rotation=Rotation(),
-                 init_scale=pygame.Vector3(1, 1, 1)):
+                 init_scale=pygame.Vector3(1, 1, 1),
+                 is_turntable=False):
         self.rendering_program = rendering_program
         self.draw_type = draw_type
         self.file_name = file_name
@@ -37,9 +39,11 @@ class Mesh:
         self.translation = rotate_around_axis(self.translation, init_rotation.angle, init_rotation.axis)
         self.translation = translate(self.translation, init_location.x, init_location.y, init_location.z)
         self.translation = scale(self.translation, init_scale.x, init_scale.y, init_scale.z)
-        self.model_mat_uniform_location = glGetUniformLocation(self.rendering_program, "model_mat")
+        self.model_mat_uniform_location = glGetUniformLocation(self.rendering_program.rendering_program, "model_mat")
+        self.texture = self.rendering_program.texture
         self.name = ''
         self.is_selected_object = True
+        self.is_turntable = is_turntable
 
     def create_vbo(self, graphics_data, layout_location, data_type):
         data = np.array(graphics_data, np.float32)
@@ -107,15 +111,24 @@ class Mesh:
     def clear_transformations(self):
         self.translation = identity_mat()
 
-    def draw(self):
-        glUseProgram(self.rendering_program)
-        self.load_uniform(self.translation, "mat4", self.model_mat_uniform_location)
-        glBindVertexArray(self.vao)
-        glDrawArrays(self.draw_type, 0, len(self.vertices))
-        glBindVertexArray(0)
-
     def random_color(self):
         self.vertex_colors.clear()
         for i in range(len(self.vertices)):
             self.vertex_colors.append(pygame.Vector3(random.random(), random.random(), random.random()))
         self.create_vbo(self.vertex_colors, 3, "vec3")
+
+    def override_texture(self, tex_file_name):
+        self.texture = Texture(tex_file_name)
+
+    def draw(self):
+        glUseProgram(self.rendering_program.rendering_program)
+        if self.texture is not None:
+            glActiveTexture(GL_TEXTURE0 + self.rendering_program.texture_unit)
+            glBindTexture(GL_TEXTURE_2D, self.texture.texture_id)
+            glUniform1i(self.rendering_program.tex_uniform_location, self.rendering_program.texture_unit)
+        if self.is_turntable:
+            self.rotate_mesh(0.1, pygame.Vector3(0, 1, 0))
+        self.load_uniform(self.translation, "mat4", self.model_mat_uniform_location)
+        glBindVertexArray(self.vao)
+        glDrawArrays(self.draw_type, 0, len(self.vertices))
+        glBindVertexArray(0)

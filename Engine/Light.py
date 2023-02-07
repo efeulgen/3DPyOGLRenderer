@@ -21,8 +21,8 @@ class Light:
                 self.light_translation_uniform_locations.append(glGetUniformLocation(program.rendering_program,
                                                                                      "lightData[" + str(self.light_index) + "].translation"))
             else:
-                self.light_translation_uniform_locations.append(0)
-                self.light_color_uniform_locations.append(0)
+                self.light_translation_uniform_locations.append(-1)
+                self.light_color_uniform_locations.append(-1)
         self.name = ''
         self.is_selected_object = False
 

@@ -67,6 +67,11 @@ class Scene:
                         else:
                             pygame.event.set_grab(True)
                             pygame.mouse.set_visible(False)
+                    if event.key == K_l:
+                        if self.camera_light is not None and self.camera_light.is_active:
+                            self.camera_light.deactivate_cam_light()
+                        elif self.camera_light is not None and not self.camera_light.is_active:
+                            self.camera_light.activate_cam_light()
             # *****************************************************************************************************************************
             # *****************************************************************************************************************************
             self.update()
