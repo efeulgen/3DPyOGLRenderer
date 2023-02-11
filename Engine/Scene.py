@@ -25,8 +25,8 @@ class Scene:
         self.clock = pygame.time.Clock()
         glEnable(GL_DEPTH_TEST)
 
-        self.rendering_programs = [RenderingProgram("Engine/Shaders/AxesShader/axesShaderVert.txt",
-                                                    "Engine/Shaders/AxesShader/axesShaderFrag.txt",
+        self.rendering_programs = [RenderingProgram("/Users/efeulgen/Documents/GitHub/3DPyOGLRenderer/Engine/Shaders/AxesShader/axesShaderVert.txt",
+                                                    "/Users/efeulgen/Documents/GitHub/3DPyOGLRenderer/Engine/Shaders/AxesShader/axesShaderFrag.txt",
                                                     does_support_light=False)]
         self.mesh_list = []
         self.light_list = []

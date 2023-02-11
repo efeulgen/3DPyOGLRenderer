@@ -5,7 +5,7 @@ from Engine.Mesh import *
 class Cube(Mesh):
     def __init__(self, rendering_program,
                  draw_type=GL_TRIANGLES,
-                 file_name="Engine/PrimitiveMeshes/cube.obj",
+                 file_name="/Users/efeulgen/Documents/GitHub/3DPyOGLRenderer/Engine/PrimitiveMeshes/Cube.py",
                  vertex_color=pygame.Vector3(1, 1, 1),
                  init_location=pygame.Vector3(0, 0, 0),
                  init_rotation=Rotation(),

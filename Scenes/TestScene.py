@@ -23,14 +23,18 @@ class TestScene(Scene):
         stone_mat = RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
                                      "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt",
                                      tex_file_name="Engine/Textures/Stone.jpg")
+        default_mat = RenderingProgram("Engine/Shaders/DiffuseShader/diffuseShaderVert.txt",
+                                       "Engine/Shaders/DiffuseShader/diffuseShaderFrag.txt")
         self.rendering_programs.append(wood_mat)  # 1
         self.rendering_programs.append(marble_mat)  # 2
         self.rendering_programs.append(stone_mat)  # 3
+        self.rendering_programs.append(default_mat)  # 4
         self.camera = Camera(1280, 720, self.rendering_programs)
         self.camera_light = CameraLight(self.rendering_programs, self.camera)
         self.light_list.append(self.camera_light)
 
         dog = Mesh(self.rendering_programs[3], file_name="Engine/TestMeshes/Dog.obj", is_turntable=False)
+        self.input_manager.active_object = dog
         self.mesh_list.append(dog)
 
     def update(self):
